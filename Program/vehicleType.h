@@ -10,12 +10,14 @@ Last Modification: 15/10/2016
 using namespace std;
 class vehicleType
 {
+	friend ostream& operator<<(ostream&, vehicleType);
+        friend istream& operator>>(istream&, vehicleType&);
 	private:
 		string name;
 		bool parkable;
 		string regisrationFormat;
-		int weightVolume;
-		int weightSpeed;
+		unsigned int weightVolume;
+		unsigned int weightSpeed;
 		float turnProbability;
 		float parkProbability;
 		float speedChangeProbability;
@@ -37,12 +39,15 @@ class vehicleType
 		void setName(string);
 		void setParkable(bool);
 		void setRegisrationFormat(string);
-		void setWeightVolume(int);
-		void setWeightSpeed(int);
+		void setWeightVolume(unsigned int);
+		void setWeightSpeed(unsigned int);
 		void setTurnProbability(float);
 		void setParkProbability(float);
 		void setSpeedChangeProbability(float);
 		void setLawBreakerProbability(float);
+		
+		
+		
 };
 
 #endif

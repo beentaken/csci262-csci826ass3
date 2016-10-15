@@ -112,3 +112,43 @@ void vehicleType::getLawBreakerProbability(float lawBreakerProbability)
 	this.lawBreakerProbability = lawBreakerProbability;
 	return;
 }
+ostream& operator << (ostream& out, vehicleType data)
+{
+        out << data.getName();
+        out << ":";
+        out << data.getParkable();
+        out << ":";
+        out << data.getRegisrationFormat();
+        out << ":";
+        out << data.getWeightVolume();
+        out << ":";
+        out << data.getWeightSpeed();
+        return out;
+}
+istream& operator >> (istream& in, vehicleType &data)
+{
+        string name;
+	bool parkable;
+	string regisrationFormat;
+	unsigned int weightVolume;
+	unsigned int weightSpeed;
+        
+        getline(in, name,':');
+        data.setName(firstname);
+        
+        getline(in, parkable,':');
+        if (atof(parkable.c_str()) == 0)
+        	data.setParkable(false);
+        else if (atof(parkable.c_str()) == 1)
+        	data.setParkable(true);
+        
+        getline(in, regisrationFormat,':');
+        data.setRegisrationFormat(regisrationFormat);
+        
+        getline(in, weightVolume,':');
+        data.setWeightVolume(weightVolume);
+        
+        getline(in, weightSpeed,'\n');
+        data.setWeightSpeed(weightSpeed);
+        return in;
+}
