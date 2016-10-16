@@ -1,0 +1,64 @@
+# depslib dependency file v1.0
+1476503728 source:c:\users\chris\documents\github\csci262-csci826ass3\program\heap.cpp
+	<iostream>
+	"heap.h"
+
+1476503723 c:\users\chris\documents\github\csci262-csci826ass3\program\heap.h
+	<string>
+	<iostream>
+
+1476506397 source:c:\users\chris\documents\github\csci262-csci826ass3\program\main.cpp
+	<iostream>
+	<string>
+	<sstream>
+	"Utility.h"
+
+1476505697 c:\users\chris\documents\github\csci262-csci826ass3\program\utility.h
+	"VehicleType.h"
+	"Stats.h"
+
+1476503778 c:\users\chris\documents\github\csci262-csci826ass3\program\vehicletype.h
+	<string>
+
+1476506055 c:\users\chris\documents\github\csci262-csci826ass3\program\stats.h
+	"Road.h"
+	"VehicleType.h"
+
+1476498287 c:\users\chris\documents\github\csci262-csci826ass3\program\road.h
+
+1476496748 source:c:\users\chris\documents\github\csci262-csci826ass3\program\queue.cpp
+	<iostream>
+	"queue.h"
+
+1476496748 c:\users\chris\documents\github\csci262-csci826ass3\program\queue.h
+	<iostream>
+
+1476498287 source:c:\users\chris\documents\github\csci262-csci826ass3\program\road.cpp
+	"Road.h"
+
+1476498499 source:c:\users\chris\documents\github\csci262-csci826ass3\program\simulation.cpp
+	"Simulation.h"
+
+1476503984 c:\users\chris\documents\github\csci262-csci826ass3\program\simulation.h
+	"Road.h"
+	"Vehicle.h"
+
+1476498225 c:\users\chris\documents\github\csci262-csci826ass3\program\vehicle.h
+	<VehicleType.h>
+
+1476505826 source:c:\users\chris\documents\github\csci262-csci826ass3\program\stats.cpp
+	"Stats.h"
+
+1476498225 source:c:\users\chris\documents\github\csci262-csci826ass3\program\vehicle.cpp
+	"Vehicle.h"
+
+1476498116 source:c:\users\chris\documents\github\csci262-csci826ass3\program\vehicletype.cpp
+	"VehicleType.h"
+
+1476506526 source:c:\users\chris\documents\github\csci262-csci826ass3\program\utility.cpp
+	<iostream>
+	<string>
+	<sstream>
+	<fstream>
+	"Utility.h"
+
