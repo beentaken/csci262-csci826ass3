@@ -1,64 +1,46 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
+#include <stdlib.h>     /* atoi */
+#include "Utility.h"
+#include "vehicleType.h"
+#include "Stats.h"
+#include "road.h"
 using namespace std;
 bool checkRunProgramFormat(int);
 int main(int argc, char *argv[])
 {
 	if (!checkRunProgramFormat(argc))
 		return 0;
-	vehicleType *type;
-	readVehicleType(type, argc);
-	delete type;	
-	return 0;
-}
-bool checkRunProgramFormat(int argc)
-{
-	if (argc != 4)
-	{
-		cout << "Run program method is wrong!!!" << endl;
-		cout << "run format: Traffic Vehicles.txt Stats.txt Days" << endl;
-		return false;
-	}
-	return true;
-}
-void readVehicleType(vehicleType *& type, char *[]& argc)
-{
-	ifstream file(argc[1]);
+	string Vfilename = argv[1];
+	string Sfilename = argv[2];
+	int Days = atoi(argv[3]);
+    
+	vehicleType * Types = NULL;
 	int numberOfTypeOfVehicle = 0;
-	if (file.is_open())
-	{
-		file >> numberOfTypeOfVehicle;
-		type = new vehicleType[numberOfTypeOfVehicle];
-		int count = 0;
-		while ( !file.eof())
-		{
-			file >> type[count];
-			if (!file.good())
-			{
-				return;
-			}
-			count++;			
-		}
-    		file.close();
-	}
-	else cout << "Unable to open file" << endl;
-	return;
-}
 
+	if (!readVehicleTypes(Vfilename, Types, numberOfTypeOfVehicle))
+		return 0;
 
-#include <iostream>
-
-using namespace std;
-void readFile(int, char *[]);
-int main(int argc, char *argv[])
+	Stats *Statistics;
+	road roadInfo;
+	int NumStatistics;
+	if (!readStats(Sfilename, Statistics, NumStatistics, roadInfo))
+		return 0;
+		
+		
+		//print
+for (int i = 0; i < numberOfTypeOfVehicle; i++)
 {
-	readFile(argc, argv);
+	cout << Types[i] << endl;
+}
+for (int i = 0; i < NumStatistics; i++)
+{
+	cout << Statistics[i] << endl;
+}
+cout << roadInfo << endl;
+
+
 	return 0;
-}
-void readFile(int argc, char *argv[])
-{
-	string fileName;
-	cout << "please input file name for open: ";
-	cin >> fileName;
-	
 }

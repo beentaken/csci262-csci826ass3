@@ -10,6 +10,7 @@ Last Modification: 15/10/2016
 using namespace std;
 class road
 {
+	friend ostream& operator<<(ostream&, road);
 	private:
 		int length;
 		int speedLimit;

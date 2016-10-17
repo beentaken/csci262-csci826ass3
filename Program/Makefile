@@ -5,7 +5,13 @@ Traffic: main.o
 
 main.o: main.cpp
 	$(CC) -c main.cpp
-
+    
+VehicleType.o: VehicleType.cpp VehicleType.h
+	$(CC) -c VehicleType.cpp
+        
+Utility.o:Utility.cpp Utility.h
+	$(CC) -c Utility.cpp
+    
 clean:
 	rm *.o
 	rm Traffic
