@@ -2,11 +2,18 @@
 #define STATS_H
 #include "road.h"
 #include "vehicleType.h"
-
+struct Data
+{
+        string type;
+        int numberMean;
+        int numberStandardDeviation;
+        int speedMean;
+        int speedStandardDeviation;
+};
 class Stats
 {
-	friend ostream& operator<<(ostream&, Stats);
-        friend istream& operator>>(istream&, Stats&);
+	friend ostream& operator << (ostream&, Stats);
+        friend istream& operator >> (istream&, Stats&);
     public:
         /** Default constructor */
         Stats();
@@ -49,10 +56,10 @@ class Stats
         void InitializeTypes(int);
         
         string getType() const;
-        float getNumberMean() const;
-        float getNumberStandardDeviation() const;
-        float getSpeedMean() const;
-        float getSpeedStandardDeviation() const;
+        int getNumberMean() const;
+        int getNumberStandardDeviation() const;
+        int getSpeedMean() const;
+        int getSpeedStandardDeviation() const;
         
         void setType(string);
         void setNumberMean(float);
@@ -66,12 +73,8 @@ class Stats
         int vehicleTypesMonitored; //!< Member variable "vehicleTypesMonitored"
         road Stretch; //!< Member variable "Stretch"
         vehicleType* Types; //!< Member variable "Types"
-        
-        string type;
-        float numberMean;
-        float numberStandardDeviation;
-        float speedMean;
-        float speedStandardDeviation;
+        Data data;
+    
 };
 
 #endif // STATS_H

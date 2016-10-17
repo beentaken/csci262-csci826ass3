@@ -10,8 +10,8 @@ Last Modification: 15/10/2016
 using namespace std;
 class vehicleType
 {
-	friend ostream& operator<<(ostream&, vehicleType);
-        friend istream& operator>>(istream&, vehicleType&);
+    friend ostream& operator<<(ostream&, vehicleType);
+    friend istream& operator>>(istream&, vehicleType&);
 	private:
 		string name;
 		bool parkable;

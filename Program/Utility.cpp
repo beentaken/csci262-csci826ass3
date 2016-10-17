@@ -62,7 +62,9 @@ bool readStats(string filename, Stats*& Statistics, int& monitoredCount, road& r
 		
 		statFile >> numberOfParkingAvailable;
 		roadInfo.setParkingSpaces(atoi(numberOfParkingAvailable.c_str()));
+        
 		monitoredCount = atoi(numberOfTypeMonitored.c_str());
+        //cout << "monitoredCount = " << monitoredCount << endl;
 		Statistics = new Stats[monitoredCount];
 		for (int count = 0; count < monitoredCount; count++)
 		{

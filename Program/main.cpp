@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	if (!readVehicleTypes(Vfilename, Types, numberOfTypeOfVehicle))
 		return 0;
 
-	Stats *Statistics;
+	Stats *Statistics = NULL;
 	road roadInfo;
 	int NumStatistics;
 	if (!readStats(Sfilename, Statistics, NumStatistics, roadInfo))
@@ -31,15 +31,15 @@ int main(int argc, char *argv[])
 		
 		
 		//print
-for (int i = 0; i < numberOfTypeOfVehicle; i++)
+/*for (int i = 0; i < numberOfTypeOfVehicle; i++)
 {
 	cout << Types[i] << endl;
-}
+}*/
 for (int i = 0; i < NumStatistics; i++)
 {
 	cout << Statistics[i] << endl;
 }
-cout << roadInfo << endl;
+//cout << roadInfo << endl;
 
 
 	return 0;
