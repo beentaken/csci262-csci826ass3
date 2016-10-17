@@ -47,34 +47,34 @@ string vehicle::getThisAction() const
 string vehicle::getPreviousAction() const
 {
 	return previousAction;
-}		
+}
 void vehicle::setRegisration(string regisration)
 {
-	this.regisration = regisration;
+	this->regisration = regisration;
 	return;
 }
 void vehicle::setCurrentPosition(int currentPosition)
 {
-	this.currentPosition = currentPosition;
+	this->currentPosition = currentPosition;
 	return;
 }
 void vehicle::setCurrentSpeed(int currentSpeed)
 {
-	this.currentSpeed = currentSpeed;
+	this->currentSpeed = currentSpeed;
 	return;
 }
 void vehicle::setParked(bool parked)
 {
-	this.parked = parked;
+	this->parked = parked;
 	return;
 }
 void vehicle::setThisAction(string thisAction)
 {
-	this.thisAction = thisAction;
+	this->thisAction = thisAction;
 	return;
 }
 void vehicle::setPreviousAction(string previousAction)
 {
-	this.previousAction = previousAction;
+	this->previousAction = previousAction;
 	return;
 }

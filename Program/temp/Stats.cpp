@@ -22,7 +22,12 @@ Stats& Stats::operator=(const Stats& rhs)
     return *this;
 }
 
-void Stats::InitializeTypes(int Number)
+void Stats::InitializeData(int num)
 {
-    Types = new VehicleType[Number];
+    this->StatData = new Data[num];
+}
+
+void Stats::SetData(Data Node, int position)
+{
+    this->StatData[position] = Node;
 }

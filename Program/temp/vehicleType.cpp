@@ -42,11 +42,11 @@ string vehicleType::getRegisrationFormat() const
 {
 	return regisrationFormat;
 }
-int vehicleType::getWeightVolume() const
+unsigned int vehicleType::getWeightVolume() const
 {
 	return weightVolume;
 }
-int vehicleType::getWeightSpeed() const
+unsigned int vehicleType::getWeightSpeed() const
 {
 	return weightSpeed;
 }
@@ -66,51 +66,42 @@ float vehicleType::getLawBreakerProbability() const
 {
 	return lawBreakerProbability;
 }
-	
-void vehicleType::getName(string name)
+
+void vehicleType::setName(string name)
 {
-	this.name = name;
-	return;
+	this->name = name;
 }
-void vehicleType::getParkable(bool parkable)
+void vehicleType::setParkable(bool parkable)
 {
-	this.parkable = parkable;
-	return;
+	this->parkable = parkable;
 }
-void vehicleType::getRegisrationFormat(string regisrationFormat)
+void vehicleType::setRegisrationFormat(string regisrationFormat)
 {
-	this.regisrationFormat = regisrationFormat;
-	return;
+	this->regisrationFormat = regisrationFormat;
 }
-void vehicleType::getWeightVolume(int weightVolume)
+void vehicleType::setWeightVolume(unsigned int weightVolume)
 {
-	this.weightVolume = weightVolume;
-	return;
+	this->weightVolume = weightVolume;
 }
-void vehicleType::getWeightSpeed(int weightSpeed)
+void vehicleType::setWeightSpeed(unsigned int weightSpeed)
 {
-	this.weightSpeed = weightSpeed;
-	return;
+	this->weightSpeed = weightSpeed;
 }
-void vehicleType::getTurnProbability(float turnProbability)
+void vehicleType::setTurnProbability(float turnProbability)
 {
-	this.turnProbability = turnProbability;
-	return;
+	this->turnProbability = turnProbability;
 }
-void vehicleType::getParkProbability(float parkProbability)
+void vehicleType::setParkProbability(float parkProbability)
 {
-	this.parkProbability = parkProbability;
-	return;
+	this->parkProbability = parkProbability;
 }
-void vehicleType::getSpeedChangeProbability(float speedChangeProbability)
+void vehicleType::setSpeedChangeProbability(float speedChangeProbability)
 {
-	this.speedChangeProbability = speedChangeProbability;
-	return;
+	this->speedChangeProbability = speedChangeProbability;
 }
-void vehicleType::getLawBreakerProbability(float lawBreakerProbability)
+void vehicleType::setLawBreakerProbability(float lawBreakerProbability)
 {
-	this.lawBreakerProbability = lawBreakerProbability;
-	return;
+	this->lawBreakerProbability = lawBreakerProbability;
 }
 ostream& operator << (ostream& out, vehicleType data)
 {
@@ -125,6 +116,8 @@ ostream& operator << (ostream& out, vehicleType data)
         out << data.getWeightSpeed();
         return out;
 }
+/*
+CANT GETLINE A BOOLEAN
 istream& operator >> (istream& in, vehicleType &data)
 {
         string name;
@@ -132,23 +125,24 @@ istream& operator >> (istream& in, vehicleType &data)
 	string regisrationFormat;
 	unsigned int weightVolume;
 	unsigned int weightSpeed;
-        
+
         getline(in, name,':');
-        data.setName(firstname);
-        
+        data.setName(name);
+
         getline(in, parkable,':');
         if (atof(parkable.c_str()) == 0)
         	data.setParkable(false);
         else if (atof(parkable.c_str()) == 1)
         	data.setParkable(true);
-        
+
         getline(in, regisrationFormat,':');
         data.setRegisrationFormat(regisrationFormat);
-        
+
         getline(in, weightVolume,':');
         data.setWeightVolume(weightVolume);
-        
+
         getline(in, weightSpeed,'\n');
         data.setWeightSpeed(weightSpeed);
         return in;
 }
+*/

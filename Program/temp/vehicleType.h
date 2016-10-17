@@ -22,20 +22,20 @@ class vehicleType
 		float parkProbability;
 		float speedChangeProbability;
 		float lawBreakerProbability;
-	public:	
+	public:
 		vehicleType();	// Constructor
 		~vehicleType();	// destructor
-		
+
 		string getName() const;
 		bool getParkable() const;
 		string getRegisrationFormat() const;
-		int getWeightVolume() const;
-		int getWeightSpeed() const;
+		unsigned int getWeightVolume() const;
+		unsigned int getWeightSpeed() const;
 		float getTurnProbability() const;
 		float getParkProbability() const;
 		float getSpeedChangeProbability() const;
 		float getLawBreakerProbability() const;
-		
+
 		void setName(string);
 		void setParkable(bool);
 		void setRegisrationFormat(string);
@@ -45,9 +45,9 @@ class vehicleType
 		void setParkProbability(float);
 		void setSpeedChangeProbability(float);
 		void setLawBreakerProbability(float);
-		
-		
-		
+
+
+
 };
 
 #endif

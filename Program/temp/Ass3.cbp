@@ -11,11 +11,8 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="4 Vehicles.txt Stats.txt 6" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="include" />
-					<Add directory="../Program" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -23,11 +20,8 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="10 Vehicles.txt Stats.txt 5" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="include" />
-					<Add directory="../Program" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -38,26 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Makefile" />
-		<Unit filename="Road.cpp" />
-		<Unit filename="Road.h" />
-		<Unit filename="Simulation.cpp" />
-		<Unit filename="Simulation.h" />
-		<Unit filename="Stats.cpp" />
-		<Unit filename="Stats.h" />
-		<Unit filename="Stats.txt" />
-		<Unit filename="Utility.cpp" />
-		<Unit filename="Utility.h" />
-		<Unit filename="Vehicle.cpp" />
-		<Unit filename="Vehicle.h" />
-		<Unit filename="VehicleType.cpp" />
-		<Unit filename="VehicleType.h" />
-		<Unit filename="Vehicles.txt" />
-		<Unit filename="heap.cpp" />
-		<Unit filename="heap.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="queue.cpp" />
-		<Unit filename="queue.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

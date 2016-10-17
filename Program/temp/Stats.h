@@ -3,6 +3,15 @@
 #include "Road.h"
 #include "VehicleType.h"
 
+struct Data
+{
+    vehicleType Types; //!< Member variable "Types"
+    float mean;
+    float standardDeviation;
+    float speedMean;
+    float speedStandardDeviation;
+};
+
 class Stats
 {
     public:
@@ -31,27 +40,23 @@ class Stats
         /** Access Stretch
          * \return The current value of Stretch
          */
-        Road GetStretch() { return Stretch; }
+        road GetStretch() { return Stretch; }
         /** Set Stretch
          * \param val New value to set
          */
-        void SetStretch(Road val) { Stretch = val; }
+        void SetStretch(road val) { Stretch = val; }
         /** Access Types
          * \return The current value of Types
          */
-        VehicleType* GetTypes() { return Types; }
-        /** Set Types
-         * \param val New value to set
-         */
-        void SetTypes(VehicleType* val) { Types = val; }
-        void InitializeTypes(int);
+        void InitializeData(int);
+        void SetData(Data, int);
 
     protected:
 
     private:
         int VehicleTypesMonitored; //!< Member variable "VehicleTypesMonitored"
-        Road Stretch; //!< Member variable "Stretch"
-        VehicleType* Types; //!< Member variable "Types"
+        road Stretch; //!< Member variable "Stretch"
+        Data* StatData;
 };
 
 #endif // STATS_H
