@@ -36,24 +36,24 @@ int road::getFreeParkingSpaces() const
 {
 	return freeParkingSpaces;
 }
-		
+
 void road::setLength(int length)
 {
-	this.length = length;
+	this->length = length;
 	return;
 }
 void road::setSpeedLimit(int speedLimit)
 {
-	this.speedLimit = speedLimit;
+	this->speedLimit = speedLimit;
 	return;
 }
 void road::setParkingSpaces(int parkingSpaces)
 {
-	this.parkingSpaces = parkingSpaces;
+	this->parkingSpaces = parkingSpaces;
 	return;
 }
 void road::setFreeParkingSpaces(int freeParkingSpaces)
 {
-	this.freeParkingSpaces = freeParkingSpaces;
+	this->freeParkingSpaces = freeParkingSpaces;
 	return;
 }

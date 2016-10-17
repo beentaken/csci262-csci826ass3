@@ -62,3 +62,107 @@
 	<fstream>
 	"Utility.h"
 
+1476620448 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\heap.cpp
+	<iostream>
+	"heap.h"
+
+1476620448 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\heap.h
+	<string>
+	<iostream>
+
+1476496748 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\queue.cpp
+	<iostream>
+	"queue.h"
+
+1476496748 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\queue.h
+	<iostream>
+
+1476620447 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\simulation.cpp
+	"Simulation.h"
+
+1476699625 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\simulation.h
+	"Road.h"
+	"Vehicle.h"
+
+1476620449 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\road.h
+	<iostream>
+	<string>
+
+1476620449 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\vehicle.h
+	<iostream>
+	<string>
+
+1476743921 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\stats.cpp
+	"Stats.h"
+
+1476743952 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\stats.h
+	"Road.h"
+	"VehicleType.h"
+
+1476699989 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\vehicletype.h
+	<iostream>
+	<string>
+
+1476700553 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\utility.cpp
+	<iostream>
+	<string>
+	<sstream>
+	<fstream>
+	"Utility.h"
+
+1476744163 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\utility.h
+	"VehicleType.h"
+	"Stats.h"
+
+1476699253 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\activityengine.cpp
+
+1476699261 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\alertengine.cpp
+
+1476699265 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\analysisengine.cpp
+
+1476699268 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\comparisonengine.cpp
+
+1476699397 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\hash.cpp
+	<iostream>
+	<string.h>
+	<stdlib.h>
+	"hash.h"
+
+1476699397 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\hash.h
+	<iostream>
+	<cstring>
+	"list.h"
+
+1476620449 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\list.h
+	<iostream>
+	"constants.h"
+	<cstring>
+
+1476699320 c:\users\chris\documents\github\csci262-csci826ass3\program\temp\include\constants.h
+
+1476620449 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\list.cpp
+	<iostream>
+	<cstring>
+	"list.h"
+
+1476743732 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\main.cpp
+	<iostream>
+	<string>
+	<sstream>
+	"Utility.h"
+
+1476699582 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\road.cpp
+	<iostream>
+	"road.h"
+
+1476699320 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\src\constants.cpp
+	"constants.h"
+
+1476699738 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\vehicle.cpp
+	<iostream>
+	"vehicle.h"
+
+1476700121 source:c:\users\chris\documents\github\csci262-csci826ass3\program\temp\vehicletype.cpp
+	<iostream>
+	"vehicleType.h"
+

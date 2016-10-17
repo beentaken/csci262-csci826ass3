@@ -23,25 +23,25 @@ class Simulation
         /** Access Stretch
          * \return The current value of Stretch
          */
-        Road GetStretch() { return Stretch; }
+        road GetStretch() { return Stretch; }
         /** Set Stretch
          * \param val New value to set
          */
-        void SetStretch(Road val) { Stretch = val; }
+        void SetStretch(road val) { Stretch = val; }
         /** Access Automobiles
          * \return The current value of Automobiles
          */
-        Vehicle* GetAutomobiles() { return Automobiles; }
+        vehicle* GetAutomobiles() { return Automobiles; }
         /** Set Automobiles
          * \param val New value to set
          */
-        void SetAutomobiles(Vehicle* val) { Automobiles = val; }
+        void SetAutomobiles(vehicle* val) { Automobiles = val; }
 
     protected:
 
     private:
-        Road Stretch; //!< Member variable "Stretch"
-        Vehicle* Automobiles; //!< Member variable "Automobiles"
+        road Stretch; //!< Member variable "Stretch"
+        vehicle* Automobiles; //!< Member variable "Automobiles"
 };
 
 #endif // SIMULATION_H

@@ -16,7 +16,7 @@ bool checkRunProgramFormat(int argc)
 	return true;
 }
 
-bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
+bool readVehicleTypes(string filename, vehicleType*& Types, int& Count)
 {
     string line;
     stringstream converter;
@@ -31,7 +31,7 @@ bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
             converter >> Count;
             converter.str("");
             converter.clear();
-            Types = new VehicleType[Count];
+            Types = new vehicleType[Count];
             int counter = 0;
 
             while (!myfile.eof()) {
@@ -46,7 +46,7 @@ bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
                     string* tokens = Tokenizer(line, ':');
 
                     /**< Name */
-                    Types[counter].SetName(tokens[0]);
+                    Types[counter].setName(tokens[0]);
 
                     /**< Parking Flag */
                     int flag;
@@ -55,12 +55,12 @@ bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
                     converter.str("");
                     converter.clear();
                     if (flag == 0)
-                        Types[counter].SetParkable(false);
+                        Types[counter].setParkable(false);
                     else
-                        Types[counter].SetParkable(true);
+                        Types[counter].setParkable(true);
 
                     /**< Registration Format */
-                    Types[counter].SetRegistration_Format(tokens[2]);
+                    Types[counter].setRegisrationFormat(tokens[2]);
 
                     /**< Volume Weight */
                     int VW;
@@ -68,7 +68,7 @@ bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
                     converter >> VW;
                     converter.str("");
                     converter.clear();
-                    Types[counter].SetVolumeWeight(VW);
+                    Types[counter].setWeightVolume(VW);
 
                     /**< Speed Weight */
                     int SW;
@@ -76,7 +76,7 @@ bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
                     converter >> SW;
                     converter.str("");
                     converter.clear();
-                    Types[counter].SetSpeedWeight(SW);
+                    Types[counter].setWeightSpeed(SW);
 
                     delete [] tokens;
                 }
@@ -98,9 +98,9 @@ bool readVehicleTypes(string filename, VehicleType* Types, int& Count)
     return true;
 }
 
-bool readStats(string filename, Stats Statistics, int& Count)
+bool readStats(string filename, Stats Statistics, int& Count, vehicleType* Ts, int VehicleCount)
 {
-/*    string line;
+    string line;
     stringstream converter;
     ifstream myfile;
     myfile.open(filename.c_str());
@@ -108,11 +108,12 @@ bool readStats(string filename, Stats Statistics, int& Count)
     if (myfile.good()) {
         if (myfile.is_open()) {
             /**< Til end of file */
-/*            getline(myfile, line, '\n');
+            getline(myfile, line, '\n');
             string* nums = Tokenizer(line, ' ');
+            Count = nums[0];
+            Statistics
 
-
-            Statistics.InitializeTypes(Count);
+            Statistics.InitializeData(Count);
             int counter = 0;
             while (!myfile.eof()) {
                 getline(myfile, line, '\n');
@@ -123,12 +124,19 @@ bool readStats(string filename, Stats Statistics, int& Count)
                 }
 
                 string* tokens = Tokenizer(line, ':');
+                Data Node;
 
                 /**< Name */
-/*                Statistics.Types[counter]->SetName(tokens[0]);
+                int position = (-1);
+                if (VehicleTypeExist(Ts, VehicleCount, tokens[0], position)) {
+                    Node.Types = Ts[position];
+                } else {
+                    cout << "Files not the same!\nTerminating the program!" << endl;
+                    return false;
+                }
 
                 /**< Parking Flag */
-/*                int flag;
+                int flag;
                 converter << tokens[1];
                 converter >> flag;
                 converter.str("");
@@ -139,10 +147,10 @@ bool readStats(string filename, Stats Statistics, int& Count)
                     Types[counter].SetParkable(true);
 
                 /**< Registration Format */
-/*                Types[counter].SetRegistration_Format(tokens[2]);
+                Types[counter].SetRegistration_Format(tokens[2]);
 
                 /**< Volume Weight */
-/*                int VW;
+                int VW;
                 converter << tokens[3];
                 converter >> VW;
                 converter.str("");
@@ -150,7 +158,7 @@ bool readStats(string filename, Stats Statistics, int& Count)
                 Types[counter].SetVolumeWeight(VW);
 
                 /**< Speed Weight */
-/*                int SW;
+                int SW;
                 converter << tokens[4];
                 converter >> SW;
                 converter.str("");
@@ -195,4 +203,16 @@ string* Tokenizer(string line, char delimeter)
     }
 
     return retval;
+}
+
+bool VehicleTypeExist(vehicleType* temp, int Total, string Name, int& position)
+{
+    for (int i = 0; i < Total; i++) {
+        if (temp[i].getName() != Name) {
+            position = i;
+            return true;
+        }
+    }
+
+    return false;
 }
