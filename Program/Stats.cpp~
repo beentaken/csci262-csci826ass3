@@ -1,25 +1,26 @@
 #include "Stats.h"
+#include <stdlib.h>
 #include <string>
 using namespace std;
 Stats::Stats()
 {
     //ctor
-	type = "";
-	numberMean = 0.0;
-        numberStandardDeviation = 0.0;
-        speedMean = 0.0;
-        speedStandardDeviation = 0.0;
+	data.type = "";
+	data.numberMean = 0;
+        data.numberStandardDeviation = 0;
+        data.speedMean = 0;
+        data.speedStandardDeviation = 0;
 }
 
 Stats::~Stats()
 {
     //dtor
 }
-
+/*
 Stats::Stats(const Stats& other)
 {
     //copy ctor
-}
+}*/
 
 Stats& Stats::operator=(const Stats& rhs)
 {
@@ -27,58 +28,66 @@ Stats& Stats::operator=(const Stats& rhs)
     //assignment operator
     return *this;
 }
-
+/*
 void Stats::InitializeTypes(int Number)
 {
     Types = new vehicleType[Number];
+}*/
+/*int Stats::GetvehicleTypesMonitored() const
+{
+	return vehicleTypesMonitored;
 }
-
+void Stats::SetvehicleTypesMonitored(int val)
+{
+	vehicleTypesMonitored = val;
+	return;
+}*/
 string Stats::getType() const
 {
-	return type;
+	return data.type;
 }
 
 float Stats::getNumberMean() const
 {
-	return numberMean;
+	return data.numberMean;
 }
 float Stats::getNumberStandardDeviation() const
 {
-	return numberStandardDeviation;
+	return data.numberStandardDeviation;
 }
 float Stats::getSpeedMean() const
 {
-	return speedMean;
+	return data.speedMean;
 }
 float Stats::getSpeedStandardDeviation() const
 {
-	return speedStandardDeviation;
+	return data.speedStandardDeviation;
 }
 
 void Stats::setType(string type)
 {
-	this->type = type;
+	data.type = type;
 }
 void Stats::setNumberMean(float numberMean)
 {
-	this->numberMean = numberMean;
+	this->data.numberMean = numberMean;
 }
 void Stats::setNumberStandardDeviation(float numberStandardDeviation)
 {
-	this->numberStandardDeviation = numberStandardDeviation;
+	this->data.numberStandardDeviation = numberStandardDeviation;
 }
 void Stats::setSpeedMean(float speedMean)
 {
-	this->speedMean = speedMean;
+	this->data.speedMean = speedMean;
 }
 void Stats::setSpeedStandardDeviation(float speedStandardDeviation)
 {
-	this->speedStandardDeviation = speedStandardDeviation;
+	this->data.speedStandardDeviation = speedStandardDeviation;
 }
 
-ostream& operator << (ostream& out, Stats data)
+ostream& operator << (ostream& out, const Stats& data)
 {
-        out << data.getType();
+	out << data.getType();
         out << ":";
         out << data.getNumberMean();
         out << ":";
@@ -87,6 +96,7 @@ ostream& operator << (ostream& out, Stats data)
         out << data.getSpeedMean();
         out << ":";
         out << data.getSpeedStandardDeviation();
+        out << "get1234" << endl;
         return out;
 }
 istream& operator >> (istream& in, Stats &data)
@@ -98,20 +108,18 @@ istream& operator >> (istream& in, Stats &data)
         string speedStandardDeviation;
         
         getline(in, type,':');
-        cout << type;
         data.setType(type);
-        
+		
         getline(in, numberMean,':');
-        data.setNumberMean(stof (numberMean, nullptr));
-        cout << numberMean;
+        data.setNumberMean(atof (numberMean.c_str()));
+
         getline(in, numberStandardDeviation,':');
-        data.setNumberStandardDeviation(stof (numberStandardDeviation, nullptr));
+        data.setNumberStandardDeviation(atof (numberStandardDeviation.c_str()));
         
         getline(in, speedMean,':');
-        data.setSpeedMean(stof (speedMean, nullptr));
+        data.setSpeedMean(atof (speedMean.c_str()));
         
         getline(in, speedStandardDeviation,'\n');
-        data.setSpeedStandardDeviation(stof (speedStandardDeviation, nullptr));
-
+        data.setSpeedStandardDeviation(atof (speedStandardDeviation.c_str()));
         return in;
 }

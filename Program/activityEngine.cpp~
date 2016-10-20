@@ -26,11 +26,13 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
         	eachDayFlowEachTypeNumber[i] = new int(numberOfType);
 	for (int m = 0; m < days; m++)
 	{
+		cout << "day: "<< m << endl;
 		for (int i = 0; i < numberOfType; i++)
 		{
 			double numberMean = Statistics[i].getNumberMean();
 			double numberStandardDeviation = Statistics[i].getNumberStandardDeviation();
 			eachDayFlowEachTypeNumber[m][i] = static_cast<int>(norDistribution(numberMean, numberStandardDeviation));
+			cout << "eachDayFlowEachTypeNumber[m][i]" << eachDayFlowEachTypeNumber[m][i] << endl;
 		}
 	}
         //calculate one Day total Flow
@@ -40,7 +42,9 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
         	totalFlowEachDay[m] = 0;
         	for (int i = 0; i < numberOfType; i++)
         		totalFlowEachDay[m] += eachDayFlowEachTypeNumber[m][i];
+        	cout << "day: " << m << "totalFlowEachDay: " << totalFlowEachDay[m] << endl;
         }
+        cout << "get2" << endl;
         //allocate member for each Day Activity
         eachDayActivity = new Heap<vehicle>*[days];
         for (int i = 0; i < days; i++)
@@ -49,6 +53,7 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
 	this->days = days;
 	//delete totalFlowEachDay
 	delete [] totalFlowEachDay;
+	cout << "finish" << endl;
 }
 activityEngine::~activityEngine()
 {

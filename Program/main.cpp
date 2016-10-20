@@ -7,6 +7,7 @@
 #include "vehicleType.h"
 #include "Stats.h"
 #include "road.h"
+#include "activityEngine.h"
 using namespace std;
 bool checkRunProgramFormat(int);
 int main(int argc, char *argv[])
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
 	string Vfilename = argv[1];
 	string Sfilename = argv[2];
 	int Days = atoi(argv[3]);
-    
+
 	vehicleType * Types = NULL;
 	int numberOfTypeOfVehicle = 0;
 
@@ -25,22 +26,16 @@ int main(int argc, char *argv[])
 
 	Stats *Statistics = NULL;
 	road roadInfo;
+
 	int NumStatistics;
 	if (!readStats(Sfilename, Statistics, NumStatistics, roadInfo))
 		return 0;
 		
-		
-		//print
-/*for (int i = 0; i < numberOfTypeOfVehicle; i++)
-{
-	cout << Types[i] << endl;
-}*/
-for (int i = 0; i < NumStatistics; i++)
-{
-	cout << Statistics[i] << endl;
-}
-//cout << roadInfo << endl;
-
-
+	activityEngine activity(Days, Statistics, NumStatistics);
+cout << "hahaha" << endl;
+	
+	activity.initHeap(Statistics);
+	cout << "++++" << endl;
+	cout << activity << endl;
 	return 0;
 }

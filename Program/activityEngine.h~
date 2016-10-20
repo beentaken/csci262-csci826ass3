@@ -26,7 +26,7 @@ class activityEngine
 		activityEngine(int, Stats *&, int);
 		~activityEngine();
 		Heap<vehicle> * getEachDayActivity(int) const;
-		int getDays() const;
+		
 		double norDistribution(double, double);
 		void initHeap(Stats *&);
 };

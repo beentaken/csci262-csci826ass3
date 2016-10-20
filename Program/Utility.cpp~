@@ -2,7 +2,9 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <stdlib.h>     /* atoi */
 #include "Stats.h"
+#include "vehicleType.h"
 #include "Utility.h"
 #include "road.h"
 using namespace std;
@@ -49,34 +51,38 @@ bool readStats(string filename, Stats*& Statistics, int& monitoredCount, road& r
 	string roadLength;
 	string speedLimit;
 	string numberOfParkingAvailable;
-	
-	ifstream file(filename.c_str());
-	if (file.is_open())
+
+	ifstream statFile(filename.c_str());
+	if (statFile.is_open())
 	{
-		file >> numberOfTypeMonitored;
-		file >> roadLength;
+		statFile >> numberOfTypeMonitored;
+		statFile >> roadLength;
 		roadInfo.setLength(atoi(roadLength.c_str()));
-		
-		file >> speedLimit;
+
+		statFile >> speedLimit;
 		roadInfo.setSpeedLimit(atoi(speedLimit.c_str()));
-		
-		file >> numberOfParkingAvailable;
+
+		statFile >> numberOfParkingAvailable;
 		roadInfo.setParkingSpaces(atoi(numberOfParkingAvailable.c_str()));
+
 		monitoredCount = atoi(numberOfTypeMonitored.c_str());
+
 		Statistics = new Stats[monitoredCount];
+cout << "monitoredCount = " <<		monitoredCount;
 		for (int count = 0; count < monitoredCount; count++)
 		{
-			if (!file.good() )
+
+			if (!statFile.good() )
 				break;
-			file >> Statistics[count];			
+			statFile >> Statistics[count];
 		}
     		
 	}
 	else
-    {
-        cout << "Unable to open file" << endl;
-        return false;
-    }
-	file.close();
+	{
+        	cout << "Unable to open file" << endl;
+        	return false;
+	}
+	statFile.close();
     return true;
 }

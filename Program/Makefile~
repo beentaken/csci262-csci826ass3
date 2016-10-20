@@ -1,17 +1,38 @@
+##############################################################
+#Student's Name: Boyang YAN
+#Student's email address: by932@uowmail.edu.au
+#Last Modification: 19/10/2016
+#################################################################
+OBJS = vehicleType.o Utility.o Stats.o road.o main.o activityEngine.o heap.o vehicle.o
 CC = g++
+DEBUG = -g
 all: Traffic
-Traffic: main.o
-	$(CC) main.o -o Traffic
+Traffic: $(OBJS)
+	$(CC) $(OBJS) -o Traffic
 
-main.o: main.cpp
+main.o: main.cpp Utility.h vehicleType.h Stats.h road.h activityEngine.h
 	$(CC) -c main.cpp
     
-VehicleType.o: VehicleType.cpp VehicleType.h
-    $(CC) -c VehicleType.cpp
-        
-Utility.o:Utility.cpp Utility.h
-    $(CC) -c Utility.cpp
-    
+vehicleType.o: vehicleType.cpp vehicleType.h
+	$(CC) -std=c++11 -c vehicleType.cpp
+	
+Utility.o:Utility.cpp Utility.h vehicleType.h Stats.h road.h
+	$(CC) -c Utility.cpp
+
+Stats.o:Stats.cpp Stats.h
+	$(CC) -std=c++11 -c Stats.cpp
+
+road.o:road.cpp road.h
+	$(CC) -c road.cpp
+
+activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h
+	$(CC) -c activityEngine.cpp
+
+heap.o:heap.cpp heap.h
+	$(CC) -c heap.cpp
+
+vehicle.o:vehicle.cpp vehicle.h
+	$(CC) -c vehicle.cpp
 clean:
 	rm *.o
 	rm Traffic

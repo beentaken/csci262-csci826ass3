@@ -1,65 +1,51 @@
 #ifndef STATS_H
 #define STATS_H
-#include "road.h"
-#include "vehicleType.h"
+//#include "road.h"
+//#include "vehicleType.h"
+#include <iostream>
+#include <string>
+using namespace std;
 struct Data
 {
         string type;
-        int numberMean;
-        int numberStandardDeviation;
-        int speedMean;
-        int speedStandardDeviation;
+        float numberMean;
+        float numberStandardDeviation;
+        float speedMean;
+        float speedStandardDeviation;
 };
 class Stats
 {
-	friend ostream& operator << (ostream&, Stats);
+	friend ostream& operator << (ostream&, const Stats&);
         friend istream& operator >> (istream&, Stats&);
     public:
-        /** Default constructor */
-        Stats();
-        /** Default destructor */
-        virtual ~Stats();
-        /** Copy constructor
-         *  \param other Object to copy from
-         */
-        Stats(const Stats& other);
-        /** Assignment operator
-         *  \param other Object to assign from
-         *  \return A reference to this
-         */
-        Stats& operator=(const Stats& other);
-
-        /** Access vehicleTypesMonitored
-         * \return The current value of vehicleTypesMonitored
-         */
-        int GetvehicleTypesMonitored() { return vehicleTypesMonitored; }
-        /** Set vehicleTypesMonitored
-         * \param val New value to set
-         */
-        void SetvehicleTypesMonitored(int val) { vehicleTypesMonitored = val; }
+        Stats();// Default constructor
+        virtual ~Stats();// Default destructor
+       // Stats(const Stats& other); // Copy constructor param other Object to copy from
+ 
+        Stats& operator=(const Stats& other);//Assignment operator param other Object to assign from return A reference to this
+       // int GetvehicleTypesMonitored() const;
+        //void SetvehicleTypesMonitored(int);
         /** Access Stretch
          * \return The current value of Stretch
          */
-        road GetStretch() { return Stretch; }
-        /** Set Stretch
-         * \param val New value to set
-         */
-        void SetStretch(road val) { Stretch = val; }
+       /* road GetStretch() { return Stretch; }//Set Stretch
+         //param val New value to set
+        void SetStretch(road val) { Stretch = val; }*/
         /** Access Types
          * \return The current value of Types
          */
-        vehicleType* GetTypes() { return Types; }
+       /* vehicleType* GetTypes() { return Types; }*/
         /** Set Types
          * \param val New value to set
          */
-        void SetTypes(vehicleType* val) { Types = val; }
-        void InitializeTypes(int);
+        //void SetTypes(vehicleType* val) { Types = val; }
+        //void InitializeTypes(int);
         
         string getType() const;
-        int getNumberMean() const;
-        int getNumberStandardDeviation() const;
-        int getSpeedMean() const;
-        int getSpeedStandardDeviation() const;
+        float getNumberMean() const;
+        float getNumberStandardDeviation() const;
+        float getSpeedMean() const;
+        float getSpeedStandardDeviation() const;
         
         void setType(string);
         void setNumberMean(float);
@@ -70,9 +56,9 @@ class Stats
     protected:
 
     private:
-        int vehicleTypesMonitored; //!< Member variable "vehicleTypesMonitored"
-        road Stretch; //!< Member variable "Stretch"
-        vehicleType* Types; //!< Member variable "Types"
+       // int vehicleTypesMonitored; //!< Member variable "vehicleTypesMonitored"
+       // road Stretch; //!< Member variable "Stretch"
+        //vehicleType* Types; //!< Member variable "Types"
         Data data;
     
 };
