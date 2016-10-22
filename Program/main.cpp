@@ -34,8 +34,7 @@ int main(int argc, char *argv[])
 	activityEngine activity(Days, Statistics, NumStatistics);
 cout << "hahaha" << endl;
 	
-	activity.initHeap(Statistics);
-	cout << "++++" << endl;
+	activity.initQueue(Statistics);
 	cout << activity << endl;
 	return 0;
 }

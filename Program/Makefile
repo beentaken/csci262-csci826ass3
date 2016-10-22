@@ -25,7 +25,7 @@ Stats.o:Stats.cpp Stats.h
 road.o:road.cpp road.h
 	$(CC) -c road.cpp
 
-activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h
+activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h queue.h
 	$(CC) -std=c++11 -c activityEngine.cpp
 
 heap.o:heap.cpp heap.h

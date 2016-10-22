@@ -48,7 +48,7 @@ class vehicle
 		void setThisAction(string);
 		void setPreviousAction(string);
 		
-		bool operator< (const vehicle&);
+		bool operator< (vehicle&);
 		
 };
 

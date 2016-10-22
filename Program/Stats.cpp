@@ -105,8 +105,11 @@ istream& operator >> (istream& in, Stats &data)
         string numberStandardDeviation;
         string speedMean;
         string speedStandardDeviation;
+        string rubbish;
         
         getline(in, type,':');
+        if (type[0] == '\n')
+        	type.erase (type.begin(), type.begin() + 1);
         data.setType(type);
 		
         getline(in, numberMean,':');
@@ -118,7 +121,9 @@ istream& operator >> (istream& in, Stats &data)
         getline(in, speedMean,':');
         data.setSpeedMean(atof (speedMean.c_str()));
         
-        getline(in, speedStandardDeviation,'\n');
+        getline(in, speedStandardDeviation,':');
         data.setSpeedStandardDeviation(atof (speedStandardDeviation.c_str()));
+        
+        getline(in, rubbish);
         return in;
 }

@@ -37,7 +37,7 @@ class Queue
 		int getLengthOfQueue() const;
 		int getMaxLengthOfQueue() const;		
 		void judgeWhetherMaxLength(int);
-		void BubbleSort();
+		void Sort();
 };
 
 #endif

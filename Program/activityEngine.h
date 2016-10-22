@@ -7,8 +7,8 @@ Last Modification: 15/10/2016
 #define ACTIVITYENGINE_H
 #include <iostream>
 #include <string>
-#include "heap.h"
-//#include "heap.cpp"
+//#include "heap.h"
+#include "queue.h"
 #include "vehicle.h"
 #include "Stats.h"
 using namespace std;
@@ -16,7 +16,7 @@ class activityEngine
 {
 	friend ostream& operator << (ostream&, const activityEngine&);
 	private:
-		Heap<vehicle> **eachDayActivity;
+		Queue<vehicle> **eachDayActivity;
 		int **eachDayFlowEachTypeNumber;
 		int days;
 		int numberOfType;
@@ -25,9 +25,10 @@ class activityEngine
 		activityEngine();
 		activityEngine(int, Stats *&, int);
 		~activityEngine();
-		Heap<vehicle> * getEachDayActivity(int) const;
+		Queue<vehicle> * getEachDayActivity(int) const;
 		int getDays() const;
 		double norDistribution(double, double);
-		void initHeap(Stats *&);
+		void initQueue(Stats *&);
+		string generateRegisration(string);
 };
 #endif

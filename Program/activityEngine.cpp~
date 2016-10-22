@@ -7,10 +7,12 @@ Last Modification: 14/10/2016
 #include <string>
 #include <random>
 #include "activityEngine.h"
-#include "heap.h"
-#include "heap.cpp"
+//#include "heap.h"
+//#include "heap.cpp"
 #include "vehicle.h"
 #include "Stats.h"
+#include "queue.h"
+#include "queue.cpp"
 using namespace std;
 activityEngine::activityEngine()
 {
@@ -26,13 +28,11 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
         	eachDayFlowEachTypeNumber[i] = new int(numberOfType);
 	for (int m = 0; m < days; m++)
 	{
-		cout << "day: "<< m << endl;
 		for (int i = 0; i < numberOfType; i++)
 		{
 			double numberMean = Statistics[i].getNumberMean();
 			double numberStandardDeviation = Statistics[i].getNumberStandardDeviation();
 			eachDayFlowEachTypeNumber[m][i] = static_cast<int>(norDistribution(numberMean, numberStandardDeviation));
-			cout << "eachDayFlowEachTypeNumber[m][i]" << eachDayFlowEachTypeNumber[m][i] << endl;
 		}
 	}
         //calculate one Day total Flow
@@ -42,18 +42,15 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
         	totalFlowEachDay[m] = 0;
         	for (int i = 0; i < numberOfType; i++)
         		totalFlowEachDay[m] += eachDayFlowEachTypeNumber[m][i];
-        	cout << "day: " << m << "totalFlowEachDay: " << totalFlowEachDay[m] << endl;
         }
-        cout << "get2" << endl;
         //allocate member for each Day Activity
-        eachDayActivity = new Heap<vehicle>*[days];
+        eachDayActivity = new Queue<vehicle>*[days];
         for (int i = 0; i < days; i++)
-        	eachDayActivity[i] = new Heap<vehicle>(totalFlowEachDay[i]+1);
+        	eachDayActivity[i] = new Queue<vehicle>(totalFlowEachDay[i]+1);
         //allocate days
 	this->days = days;
 	//delete totalFlowEachDay
 	delete [] totalFlowEachDay;
-	cout << "finish" << endl;
 }
 activityEngine::~activityEngine()
 {
@@ -68,8 +65,10 @@ double activityEngine::norDistribution(double mean, double standardDeviation)
 	std::default_random_engine generator( rd() );
 	return normalDistribution(generator);
 }
-void activityEngine::initHeap(Stats *&Statistics)
+void activityEngine::initQueue(Stats *&Statistics)
 {
+	
+	
 	//get vehicle Type
 	string *vehicleType = new string[numberOfType];
 	for (int m = 0; m < numberOfType; m++)
@@ -98,31 +97,43 @@ void activityEngine::initHeap(Stats *&Statistics)
 				arriveTime.hour = rand() % 24;
 				//set min
 				arriveTime.min = rand() % 60;
-				
+				//set arrive Time
 				newVehicle.setArriveTime(arriveTime);
+				//set type
 				newVehicle.setType(vehicleType[m]);
-				
+				//set current Position
+				newVehicle.setCurrentPosition(0);
+				//set parked
+				newVehicle.setParked(false);
+				//set this Action
+				newVehicle.setThisAction("arrive");
+				// set previousAction
+				newVehicle.setPreviousAction("NULL");
 				//set speed
 				
 				int speed = static_cast<int>(norDistribution(speedMean[m], speedStandardDeviation[m]));
 				newVehicle.setCurrentSpeed(speed);
 				
 				//set each Day Activity
-				eachDayActivity[i]->insert(newVehicle);	
+				eachDayActivity[i]->Enqueue(newVehicle);	
 			}			
 		}		
 	}
 	delete [] vehicleType;
 	delete [] speedMean;
 	delete [] speedStandardDeviation;
-	cout << eachDayActivity;
+	//sort queue
+	for (int i = 0; i < days; i++)
+		eachDayActivity[i]->BubbleSort();
 	return;
 }
+//generate regisration number
+string activityEngine::
 int activityEngine::getDays() const
 {
 	return days;
 }
-Heap<vehicle> * activityEngine::getEachDayActivity(int days) const
+Queue<vehicle> * activityEngine::getEachDayActivity(int days) const
 {
 	return eachDayActivity[days];
 }
