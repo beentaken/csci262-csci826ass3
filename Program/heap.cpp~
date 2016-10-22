@@ -88,14 +88,24 @@ void Heap<T>::siftUp(int index)
 template <class T>
 void Heap<T>::insert(T val)
 {
-	heapSize++;
-	if (heapSize > maxHeapSize)
+	//insert first element
+	if (heapSize == 0)
+	{
+		heap[0] = val;
+		heapSize++;
+	}
+	else if (heapSize > maxHeapSize)
 	{
 		cout << "heap is full :(" << endl;
 		return;
 	}
-	heap[heapSize] = val;
-	siftUp(heapSize);
+	else
+	{
+		heap[heapSize] = val;
+		siftUp(heapSize);
+		heapSize++;
+	}
+	//cout << "insert"<< val << "insert" << endl;
 	return;
 }
 template <class T>

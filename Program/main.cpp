@@ -35,5 +35,6 @@ int main(int argc, char *argv[])
 	activityEngine activity(Days, Statistics, NumStatistics);	
 	activity.initQueue(Statistics, Types);
 	cout << activity << endl;
+	activity.simulation(Types);
 	return 0;
 }

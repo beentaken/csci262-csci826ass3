@@ -87,7 +87,7 @@ T Queue<T>::Front()
 	if(front == -1)
 	{
 		cout<<"Error: cannot return front from empty queue" << endl;
-		return -1; 
+		throw; 
 	}
 	return queue[front];
 }
@@ -154,4 +154,47 @@ void Queue<T>::BubbleSort()
 		}
 	}
 	return;   //arrays are passed to functions by address; nothing is returned
+}
+template <class T>
+int Queue<T>::checkElementSame()
+{
+	for (int i = front; i < lengthOfQueue; i++)
+	{
+		if ( i > maxSizeOfQueue)
+			i = 0;
+		for (int m = i + 1; m < lengthOfQueue; m++)
+		{
+			if ( m > maxSizeOfQueue)
+				m = 0;
+			if (queue[i] == queue[m])
+				return i;
+		}
+	}
+	return -1;
+}
+template <class T>
+T Queue<T>::getElement(int which)
+{
+	if(front == -1)
+	{
+		cout<<"Error: cannot return front from empty queue" << endl;
+		throw; 
+	}
+	else if(front <= rear)
+	{
+		if (which >= front && which <= rear)
+			return queue[which];
+	}
+	else if (front > rear)
+	{
+		if (which >= front || which <= rear)
+			return queue[which];
+	}
+	
+}
+template <class T>
+void Queue<T>::setElement(int which, T element)
+{
+	queue[which] = element;
+	return;
 }

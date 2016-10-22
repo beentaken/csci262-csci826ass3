@@ -5,6 +5,7 @@ Last Modification: 14/10/2016
 -------------------------------------------------------------*/
 #include <iostream>
 #include "vehicle.h"
+#include "time.h"
 using namespace std;
 vehicle::vehicle()// Constructor
 {
@@ -96,27 +97,31 @@ void vehicle::setArriveTime(Time arriveTime)
 	this->arriveTime = arriveTime;
 	return;
 }
+void vehicle::setArriveTimeMin(int min)
+{
+	this->arriveTime.setMin(min);
+	return;
+}
 bool vehicle::operator< (const vehicle& rhs)
 {
-	if (rhs.arriveTime.hour > arriveTime.hour)
+	if (arriveTime < rhs.arriveTime)
 		return true;
-	else if (rhs.arriveTime.hour == arriveTime.hour)
-	{
-		if (rhs.arriveTime.min > arriveTime.min)
-			return true;
-		else
-			return false;
-	}
-	else
-		return false;	
+	return false;	
+}
+bool vehicle::operator == (const vehicle& rhs)
+{
+	if (rhs.regisration == regisration)
+		return true;
+		
+	return false;
 }
 int vehicle::getArriveTimeHour() const
 {
-	return arriveTime.hour;
+	return arriveTime.getHour();
 }
 int vehicle::getArriveTimeMin() const
 {
-	return arriveTime.min;
+	return arriveTime.getMin();
 }
 ostream& operator << (ostream& out, const vehicle& data)
 {

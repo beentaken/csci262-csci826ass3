@@ -31,6 +31,8 @@ class Queue
 		void Enqueue(T);	// Inserts an element in queue at rear end 
 		void Dequeue();	// Removes an element in Queue from front end.	 
 		T Front();	// Returns element at front of queue.
+		T getElement(int);
+		void setElement(int, T);
 		int getFront() const;
 		int getRear() const;
 		int getMaxSizeOfQueue() const;
@@ -38,6 +40,7 @@ class Queue
 		int getMaxLengthOfQueue() const;		
 		void judgeWhetherMaxLength(int);
 		void BubbleSort();
+		int checkElementSame();
 };
 
 #endif

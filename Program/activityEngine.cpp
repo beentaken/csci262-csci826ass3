@@ -7,14 +7,15 @@ Last Modification: 14/10/2016
 #include <string>
 #include <random>
 #include "activityEngine.h"
-//#include "heap.h"
-//#include "heap.cpp"
+#include "heap.h"
+#include "heap.cpp"
 #include <unordered_map>
 #include "vehicle.h"
 #include "Stats.h"
 #include "queue.h"
 #include "queue.cpp"
 #include "vehicleType.h"
+#include "time.h"
 using namespace std;
 activityEngine::activityEngine()
 {
@@ -51,6 +52,11 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
         	eachDayActivity[i] = new Queue<vehicle>(totalFlowEachDay[i]+1);
         //allocate days
 	this->days = days;
+	//set crrent time
+	currentTime.setHour(0);
+	currentTime.setMin(0);
+	//init vehicle On Road State
+	vehicleOnRoadState = new Heap<vehicle>(100);
 	//delete totalFlowEachDay
 	delete [] totalFlowEachDay;
 }
@@ -94,9 +100,9 @@ void activityEngine::initQueue(Stats *&Statistics, std::unordered_map<std::strin
 				Time arriveTime;
 				
 				//set hour
-				arriveTime.hour = rand() % 24;
+				arriveTime.setHour(rand() % 24);
 				//set min
-				arriveTime.min = rand() % 60;
+				arriveTime.setMin(rand() % 60);
 				//set arrive Time
 				newVehicle.setArriveTime(arriveTime);
 				//set type
@@ -122,18 +128,138 @@ void activityEngine::initQueue(Stats *&Statistics, std::unordered_map<std::strin
 	delete [] vehicleType;
 	delete [] speedMean;
 	delete [] speedStandardDeviation;
-	//sort queue
+	//sort queue and check Regisration are not same
 	for (int i = 0; i < days; i++)
+	{
 		eachDayActivity[i]->BubbleSort();
+		int whichSame = eachDayActivity[i]->checkElementSame();
+		while (whichSame != -1)
+		{
+			vehicle newVehicle = eachDayActivity[i]->getElement(whichSame);
+			string sameElementType = newVehicle.getType();
+			string newRegisration = generateRegisration(sameElementType, vehicleTypeInfo);
+			newVehicle.setRegisration(newRegisration);
+			
+			eachDayActivity[i]->setElement(whichSame, newVehicle);
+			
+			whichSame = eachDayActivity[i]->checkElementSame();
+		}
+	}
 	return;
 }
 //generate regisration number
 string activityEngine::activityEngine::generateRegisration(string type, std::unordered_map<std::string, vehicleType>& vehicleTypeInfo)
 {
 	string output;
-	cout << vehicleTypeInfo[type] << endl;
-	
+	string regisration = vehicleTypeInfo[type].getRegisration();
+	for (int i = 0; i < regisration.length(); i++)
+	{
+		int temp = 0;
+		if (regisration[i] == 'L')
+		{
+			temp = rand()%(90-65 + 1) + 65;
+			output.insert(output.end(), 1, temp);			
+		}
+		else if (regisration[i] == 'D')
+		{
+			temp = rand()%(57-48 + 1) + 48;
+			output.insert(output.end(), 1, temp);
+		}		
+	}
 	return output;
+}
+void activityEngine::simulation(std::unordered_map<std::string, vehicleType> &Types)
+{
+	int currentMin;
+	int currentHour;
+	for (int i = 0; i < days; i++)
+	{
+		cout << "Day: " << i + 1 << endl;
+		for (int m = 0; m < 24 * 60; m++)
+		{
+			//print out current time
+			//cout << "current Time " << currentTime;
+			
+			vehicle newVehicle = eachDayActivity[i]->Front();
+			if (currentTime == newVehicle.getArriveTime())
+			{
+				eachDayActivity[day]->Dequeue();	// Removes an element in Queue from front end.
+				//put into heap
+				vehicleOnRoadState->insert(newVehicle);
+			}
+			else if(newVehicle.getArriveTime() < currentTime)//solve if have two same arrive in the queue
+			{
+				int min = currentTime.getMin();
+				newVehicle.setArriveTimeMin(min++);
+				eachDayActivity[day]->Dequeue();	// Removes an element in Queue from front end.
+				//put into heap
+				vehicleOnRoadState->insert(newVehicle);
+				//cout << "newVehicle: " << newVehicle << endl;
+				//cout << "Heap: " << *vehicleOnRoadState << endl;
+			}
+			//change vehicle State in the heap
+			for ()
+			{
+			
+			}
+			currentMin = currentTime.getMin();
+			currentMin++;
+			if (currentMin >= 60)
+			{
+				currentHour = currentTime.getHour();			
+				currentTime.setMin(0);
+				currentTime.setHour(++currentHour);
+			}
+			else
+				currentTime.setMin(currentMin);
+			
+			
+		}		
+	}
+	return;
+}
+void activityEngine::vehicleChangeState(vehicle &newVehicle, int day, std::unordered_map<std::string, vehicleType> &VehicleTypeInfo)
+{
+	float random = rand() / float(RAND_MAX);
+	
+	string newVehicleType = newVehicle.getType();
+	float continuingDrivingProbability = VehicleTypeInfo[newVehicleType].getContinuingDrivingProbability();
+	float turnProbability = VehicleTypeInfo[newVehicleType].getTurnProbability();
+	float parkProbability = VehicleTypeInfo[newVehicleType].getParkProbability();
+	float speedUpProbability = VehicleTypeInfo[newVehicleType].getSpeedUpProbability();
+	float speedDownProbability = VehicleTypeInfo[newVehicleType].getSpeedDownProbability();
+	
+	float levelOne = continuingDrivingProbability;
+	float levelTwo = continuingDrivingProbability + turnProbability;
+	float levelThree = continuingDrivingProbability + turnProbability + parkProbability;
+	float levelFour = continuingDrivingProbability + turnProbability + parkProbability + speedUpProbability;
+	float levelFifty = continuingDrivingProbability + turnProbability + parkProbability + speedUpProbability + speedDownProbability;
+	
+	if (levelFifty != 1)
+		cout << "Probability error, sum are not equal 1" << endl;
+	if (random < levelOne)//continuingDriving
+	{
+		
+	}
+	else if (random >= levelOne && random < levelTwo)//turn
+	{
+	
+	}
+	else if (random >= levelTwo && random < levelThree)//parking
+	{
+	
+	}
+	else if (random >= levelThree && random < levelFour)//speed up
+	{
+	
+	}
+	else if (random >= levelFour && random < levelFifty)//speed down
+	{
+	
+	}
+	
+	
+	return;
 }
 int activityEngine::getDays() const
 {

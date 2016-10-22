@@ -3,7 +3,7 @@
 #Student's email address: by932@uowmail.edu.au
 #Last Modification: 19/10/2016
 #################################################################
-OBJS = vehicleType.o Utility.o Stats.o road.o main.o activityEngine.o heap.o vehicle.o
+OBJS = vehicleType.o Utility.o Stats.o road.o main.o activityEngine.o heap.o vehicle.o time.o
 CC = g++
 DEBUG = -g
 all: Traffic
@@ -25,14 +25,17 @@ Stats.o:Stats.cpp Stats.h
 road.o:road.cpp road.h
 	$(CC) -c road.cpp
 
-activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h queue.h
+activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h queue.h vehicleType.h
 	$(CC) -std=c++11 -c activityEngine.cpp
 
 heap.o:heap.cpp heap.h
 	$(CC) -c heap.cpp
 
-vehicle.o:vehicle.cpp vehicle.h
+vehicle.o:vehicle.cpp vehicle.h time.h
 	$(CC) -c vehicle.cpp
+	
+time.o:time.cpp time.h
+	$(CC) -c time.cpp
 clean:
 	rm *.o
 	rm Traffic

@@ -33,7 +33,8 @@ int main(int argc, char *argv[])
 		return 0;
 		
 	activityEngine activity(Days, Statistics, NumStatistics);	
-	activity.initQueue(Statistics);
+	activity.initQueue(Statistics, Types);
 	cout << activity << endl;
+	activity.simulation();
 	return 0;
 }

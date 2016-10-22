@@ -7,12 +7,8 @@ Last Modification: 15/10/2016
 #define VEHICLE_H
 #include<iostream>
 #include <string>
+#include "time.h"
 using namespace std;
-struct Time
-{
-	int hour;
-	int min;
-};
 class vehicle
 {
 	friend ostream& operator << (ostream&, const vehicle&);
@@ -41,6 +37,7 @@ class vehicle
 		
 		void setType(string);
 		void setArriveTime(Time);
+		void setArriveTimeMin(int);
 		void setRegisration(string);
 		void setCurrentPosition(int);
 		void setCurrentSpeed(int);
@@ -49,6 +46,7 @@ class vehicle
 		void setPreviousAction(string);
 		
 		bool operator< (const vehicle&);
+		bool operator == (const vehicle&);
 		
 };
 
