@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>     /* atoi */
+#include <unordered_map>
 #include "Utility.h"
 #include "vehicleType.h"
 #include "Stats.h"
@@ -18,12 +19,12 @@ int main(int argc, char *argv[])
 	string Sfilename = argv[2];
 	int Days = atoi(argv[3]);
 
-	vehicleType * Types = NULL;
+	std::unordered_map<std::string, vehicleType> Types;
 	int numberOfTypeOfVehicle = 0;
 
 	if (!readVehicleTypes(Vfilename, Types, numberOfTypeOfVehicle))
 		return 0;
-
+	
 	Stats *Statistics = NULL;
 	road roadInfo;
 
@@ -31,10 +32,8 @@ int main(int argc, char *argv[])
 	if (!readStats(Sfilename, Statistics, NumStatistics, roadInfo))
 		return 0;
 		
-	activityEngine activity(Days, Statistics, NumStatistics);
-cout << "hahaha" << endl;
-	
-	activity.initQueue(Statistics);
+	activityEngine activity(Days, Statistics, NumStatistics);	
+	activity.initQueue(Statistics, Types);
 	cout << activity << endl;
 	return 0;
 }

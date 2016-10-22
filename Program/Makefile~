@@ -11,13 +11,13 @@ Traffic: $(OBJS)
 	$(CC) $(OBJS) -o Traffic
 
 main.o: main.cpp Utility.h vehicleType.h Stats.h road.h activityEngine.h
-	$(CC) -c main.cpp
+	$(CC)  -std=c++11 -c main.cpp
     
 vehicleType.o: vehicleType.cpp vehicleType.h
 	$(CC) -std=c++11 -c vehicleType.cpp
 	
 Utility.o:Utility.cpp Utility.h vehicleType.h Stats.h road.h
-	$(CC) -c Utility.cpp
+	$(CC) -std=c++11 -c Utility.cpp
 
 Stats.o:Stats.cpp Stats.h
 	$(CC) -std=c++11 -c Stats.cpp
@@ -25,7 +25,7 @@ Stats.o:Stats.cpp Stats.h
 road.o:road.cpp road.h
 	$(CC) -c road.cpp
 
-activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h
+activityEngine.o:activityEngine.cpp activityEngine.h heap.cpp heap.h vehicle.h Stats.h queue.h
 	$(CC) -std=c++11 -c activityEngine.cpp
 
 heap.o:heap.cpp heap.h

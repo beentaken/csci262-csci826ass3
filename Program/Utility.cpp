@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <unordered_map>
 #include <stdlib.h>     /* atoi */
 #include "Stats.h"
 #include "vehicleType.h"
@@ -20,7 +21,37 @@ bool checkRunProgramFormat(int argc)
 	}
 	return true;
 }
-
+bool readVehicleTypes(string filename, std::unordered_map<std::string, vehicleType>& type, int &numberOfTypeOfVehicle)
+{
+    ifstream file(filename.c_str());
+	if (file.is_open())
+	{
+		string typeNum;
+		getline(file, typeNum,'\n');
+		numberOfTypeOfVehicle = atoi(typeNum.c_str());
+		vehicleType * readVehicle = new vehicleType[numberOfTypeOfVehicle];
+		std::pair <std::string,vehicleType> Pair;
+		string readType;
+		for (int count = 0; count < numberOfTypeOfVehicle; count++)
+		{
+			if (!file.good() )
+				break;
+			getline(file, readType,':');
+			file >> readVehicle[count];
+			Pair = std::make_pair (readType, readVehicle[count]);
+			type.insert (Pair);
+		}
+    		
+	}
+	else
+	{
+		cout << "Unable to open file" << endl;
+		return false;
+	}
+	file.close();
+	return true;
+}
+/*
 bool readVehicleTypes(string filename, vehicleType*& type, int &numberOfTypeOfVehicle)
 {
     ifstream file(filename.c_str());
@@ -43,7 +74,7 @@ bool readVehicleTypes(string filename, vehicleType*& type, int &numberOfTypeOfVe
     }
 	file.close();
     return true;
-}
+}*/
 
 bool readStats(string filename, Stats*& Statistics, int& monitoredCount, road& roadInfo)
 {

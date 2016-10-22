@@ -9,10 +9,12 @@ Last Modification: 14/10/2016
 #include "activityEngine.h"
 //#include "heap.h"
 //#include "heap.cpp"
+#include <unordered_map>
 #include "vehicle.h"
 #include "Stats.h"
 #include "queue.h"
 #include "queue.cpp"
+#include "vehicleType.h"
 using namespace std;
 activityEngine::activityEngine()
 {
@@ -65,10 +67,8 @@ double activityEngine::norDistribution(double mean, double standardDeviation)
 	std::default_random_engine generator( rd() );
 	return normalDistribution(generator);
 }
-void activityEngine::initQueue(Stats *&Statistics)
-{
-	
-	
+void activityEngine::initQueue(Stats *&Statistics, std::unordered_map<std::string, vehicleType>& vehicleTypeInfo)
+{	
 	//get vehicle Type
 	string *vehicleType = new string[numberOfType];
 	for (int m = 0; m < numberOfType; m++)
@@ -109,11 +109,11 @@ void activityEngine::initQueue(Stats *&Statistics)
 				newVehicle.setThisAction("arrive");
 				// set previousAction
 				newVehicle.setPreviousAction("NULL");
-				//set speed
-				
+				//set speed				
 				int speed = static_cast<int>(norDistribution(speedMean[m], speedStandardDeviation[m]));
 				newVehicle.setCurrentSpeed(speed);
-				
+				//set regisration number
+				newVehicle.setRegisration(generateRegisration(vehicleType[m], vehicleTypeInfo));
 				//set each Day Activity
 				eachDayActivity[i]->Enqueue(newVehicle);	
 			}			
@@ -128,7 +128,13 @@ void activityEngine::initQueue(Stats *&Statistics)
 	return;
 }
 //generate regisration number
-string activityEngine::
+string activityEngine::activityEngine::generateRegisration(string type, std::unordered_map<std::string, vehicleType>& vehicleTypeInfo)
+{
+	string output;
+	cout << vehicleTypeInfo[type] << endl;
+	
+	return output;
+}
 int activityEngine::getDays() const
 {
 	return days;

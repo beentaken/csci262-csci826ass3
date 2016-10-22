@@ -14,7 +14,7 @@ class vehicleType
     friend istream& operator>>(istream&, vehicleType&);
 	private:
 		bool parkable;
-		string regisration;
+		string regisrationFormat;
 		unsigned int weightVolume;
 		unsigned int weightSpeed;
 		

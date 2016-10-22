@@ -7,10 +7,12 @@ Last Modification: 15/10/2016
 #define ACTIVITYENGINE_H
 #include <iostream>
 #include <string>
+#include <unordered_map>
 //#include "heap.h"
 #include "queue.h"
 #include "vehicle.h"
 #include "Stats.h"
+#include "vehicleType.h"
 using namespace std;
 class activityEngine
 {
@@ -28,7 +30,7 @@ class activityEngine
 		Queue<vehicle> * getEachDayActivity(int) const;
 		int getDays() const;
 		double norDistribution(double, double);
-		void initQueue(Stats *&);
-		string generateRegisration(string);
+		void initQueue(Stats *&, std::unordered_map<std::string, vehicleType>&);
+		string generateRegisration(string, std::unordered_map<std::string, vehicleType>&);
 };
 #endif

@@ -1,68 +1,32 @@
-#include <iostream>
-using namespace std;
-void BubbleSort(int[], int, int, int);
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void shuffle(int *arr, size_t n)
+{
+    if (n > 1) 
+    {
+        size_t i;
+        srand(time(NULL));
+        for (i = 0; i < n - 1; i++) 
+        {
+          size_t j = i + rand() / (10 / (n - i) + 1);
+          int t = arr[j];
+          arr[j] = arr[i];
+          arr[i] = t;
+        }
+    }
+}
+
 int main()
 {
-	int length = 6;
-	int array[length];
-	int start = 2;
-	int last = 0;
-	
-	array[0] = 6;
-
-	array[2] = 1;
-	array[3] = 8;
-	array[4] = 2;
-	array[5] = 4;
-	
-	BubbleSort(array, start, last, length);
-	
-	for (int i = start; i < last; i++)
-		cout << array[i] << endl;
-	return 0;
+    int i;
+    int arr[10];
+    for (i=0; i<10; i++){
+        arr[i] = i;
+    }
+    shuffle(arr, 10);
+    for (i=0; i<10; i++){
+        printf("%d ", arr[i]);
+    }
 }
-// Bubble Sort Function for Descending Order 
-void BubbleSort(int num[], int start, int last, int length)
-{
-	int flag = 1;    // set flag to 1 to start first pass
-	int temp;             // holding variable
-	int numLength = length; 
-	for(int i = start; (i < last) && flag; i++)
-	{
-		cout << "i = " << i << endl;
-		flag = 0;
-		for (int j = 0; j < (numLength -1); j++)
-		{
-			if (num[j + 1] < num[j])      // ascending order simply changes to <
-			{ 
-				temp = num[j];             // swap elements
-				num[j] = num[j + 1];
-				num[j + 1] = temp;
-				flag = 1;               // indicates that a swap occurred.
-			}
-		}
-	}
-	return;   //arrays are passed to functions by address; nothing is returned
-}
-/*// Bubble Sort Function for Descending Order 
-void BubbleSort(int num[], int start, int last)
-{
-	int flag = 1;    // set flag to 1 to start first pass
-	int temp;             // holding variable
-	int numLength = last; 
-	for(int i = 1; (i <= numLength) && flag; i++)
-	{
-		flag = 0;
-		for (int j = 0; j < (numLength -1); j++)
-		{
-			if (num[j + 1] < num[j])      // ascending order simply changes to <
-			{ 
-				temp = num[j];             // swap elements
-				num[j] = num[j + 1];
-				num[j + 1] = temp;
-				flag = 1;               // indicates that a swap occurred.
-			}
-		}
-	}
-	return;   //arrays are passed to functions by address; nothing is returned
-}*/
