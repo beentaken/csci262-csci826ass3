@@ -1,0 +1,18 @@
+/*-------------------------------------------------------------
+Student's Name: Boyang YAN
+Student's email address: by932@uowmail.edu.au
+Last Modification: 15/10/2016
+-------------------------------------------------------------*/
+#ifndef VEHICLETYPEINHEAP_H
+#define VEHICLETYPEINHEAP_H
+#include<iostream>
+#include "vehicle.h"
+using namespace std;
+class vehicleTypeInHeap: public vehicle
+{
+	public:
+		vehicleTypeInHeap() : vehicle() {}
+		//vehicleTypeInHeap(const vehicleTypeInHeap&);//copy constrct
+		virtual bool operator< (const vehicle&);
+};
+#endif

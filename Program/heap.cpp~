@@ -105,7 +105,6 @@ void Heap<T>::insert(T val)
 		siftUp(heapSize);
 		heapSize++;
 	}
-	//cout << "insert"<< val << "insert" << endl;
 	return;
 }
 template <class T>

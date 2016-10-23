@@ -29,11 +29,11 @@ string vehicle::getRegisration() const
 {
 	return regisration;
 }
-int vehicle::getCurrentPosition() const
+float vehicle::getCurrentPosition() const
 {
 	return currentPosition;
 }
-int vehicle::getCurrentSpeed() const
+float vehicle::getCurrentSpeed() const
 {
 	return currentSpeed;
 }
@@ -62,7 +62,7 @@ void vehicle::setRegisration(string regisration)
 	this->regisration = regisration;
 	return;
 }
-void vehicle::setCurrentPosition(int currentPosition)
+void vehicle::setCurrentPosition(float currentPosition)
 {
 	this->currentPosition = currentPosition;
 	return;
@@ -104,7 +104,7 @@ void vehicle::setArriveTimeMin(int min)
 }
 bool vehicle::operator< (const vehicle& rhs)
 {
-	if (rhs.arriveTime > arriveTime)
+	if (type < rhs.type)
 		return true;
 	return false;	
 }
@@ -125,23 +125,14 @@ int vehicle::getArriveTimeMin() const
 }
 ostream& operator << (ostream& out, const vehicle& data)
 {
-	out << data.getType();
-        out << ":";
-	out << data.getArriveTimeHour();
-        out << ":";
-        out << data.getArriveTimeMin();
-        out << ":";
-	out << data.getRegisration();
-        out << ":";
-	out << data.getCurrentPosition();
-        out << ":";
-	out << data.getCurrentSpeed();
-        out << ":";
-	out << data.getParked();
-        out << ":";
-	out << data.getThisAction();
-        out << ":";
-	out << data.getPreviousAction();
-        out << ":";
+	out << "Type: " << data.getType();
+	out << " Arrive Hour: " << data.getArriveTimeHour();
+        out << " Arrive Min: " << data.getArriveTimeMin();
+	out << " Regisration: " << data.getRegisration();
+	out << " Current Position: " << data.getCurrentPosition();
+	out << " Current Speed: " << data.getCurrentSpeed();
+	out << " Parked: " << data.getParked();
+	out << " This Action: " << data.getThisAction();
+	out << " Previous Action: " << data.getPreviousAction() << endl;
         return out;
 }

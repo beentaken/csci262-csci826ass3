@@ -7,6 +7,7 @@ Last Modification: 15/10/2016
 #define ACTIVITYENGINE_H
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <unordered_map>
 #include "heap.h"
 #include "queue.h"
@@ -14,14 +15,17 @@ Last Modification: 15/10/2016
 #include "Stats.h"
 #include "vehicleType.h"
 #include "time.h"
+#include "vehicleTypeInQueue.h"
+#include "vehicleTypeInHeap.h"
+#include "road.h"
 using namespace std;
 class activityEngine
 {
 	friend ostream& operator << (ostream&, const activityEngine&);
 	private:
-		Queue<vehicle> **eachDayActivity;
+		Queue<vehicleTypeInQueue> **eachDayActivity;
 		int **eachDayFlowEachTypeNumber;
-		Heap<vehicle> *vehicleOnRoadState;
+		Heap<vehicleTypeInHeap> **vehicleOnRoadState;
 		int days;
 		int numberOfType;
 		Time currentTime;
@@ -30,13 +34,18 @@ class activityEngine
 		activityEngine(int, Stats *&, int);
 		~activityEngine();
 		
-		Queue<vehicle> * getEachDayActivity(int) const;
+		Queue<vehicleTypeInQueue> * getEachDayActivity(int) const;
 		int getDays() const;
 		
 		double norDistribution(double, double);
 		void initQueue(Stats *&, std::unordered_map<std::string, vehicleType>&);
 		string generateRegisration(string, std::unordered_map<std::string, vehicleType>&);
-		void simulation();
-		void vehicleChangeState(vehicle &, int );
+		void simulation(std::unordered_map<std::string, vehicleType> &, road);
+		void vehicleChangeState(vehicle &, std::unordered_map<std::string, vehicleType> &, ofstream &);
+		float kilometresPerHourToPerMin(float);
+		
+		vehicleTypeInHeap convertVehicleTypeQueueToHeap(vehicleTypeInQueue);
+		
+		void outputVehicleLog(vehicleTypeInHeap &, ofstream &, road &, std::unordered_map<std::string, vehicleType> &, int, int);
 };
 #endif

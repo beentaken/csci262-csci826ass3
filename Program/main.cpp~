@@ -10,7 +10,6 @@
 #include "road.h"
 #include "activityEngine.h"
 using namespace std;
-bool checkRunProgramFormat(int);
 int main(int argc, char *argv[])
 {
 	if (!checkRunProgramFormat(argc))
@@ -34,7 +33,8 @@ int main(int argc, char *argv[])
 		
 	activityEngine activity(Days, Statistics, NumStatistics);	
 	activity.initQueue(Statistics, Types);
-	cout << activity << endl;
-	activity.simulation();
+	
+	//cout << activity << endl;
+	activity.simulation(Types);
 	return 0;
 }

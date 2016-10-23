@@ -12,11 +12,11 @@ using namespace std;
 class vehicle
 {
 	friend ostream& operator << (ostream&, const vehicle&);
-	private:
+	protected:
 		string type;
 		Time arriveTime;
 		string regisration;
-		int currentPosition;
+		float currentPosition;
 		float currentSpeed;
 		bool parked;
 		string thisAction;
@@ -29,8 +29,8 @@ class vehicle
 		int getArriveTimeHour() const;
 		int getArriveTimeMin() const;
 		string getRegisration() const;
-		int getCurrentPosition() const;
-		int getCurrentSpeed() const;
+		float getCurrentPosition() const;
+		float getCurrentSpeed() const;
 		bool getParked() const;
 		string getThisAction() const;
 		string getPreviousAction() const;
@@ -39,15 +39,13 @@ class vehicle
 		void setArriveTime(Time);
 		void setArriveTimeMin(int);
 		void setRegisration(string);
-		void setCurrentPosition(int);
-		void setCurrentSpeed(int);
+		void setCurrentPosition(float);
+		void setCurrentSpeed(float);
 		void setParked(bool);
 		void setThisAction(string);
 		void setPreviousAction(string);
-		
 		bool operator< (const vehicle&);
 		bool operator == (const vehicle&);
 		
 };
-
 #endif

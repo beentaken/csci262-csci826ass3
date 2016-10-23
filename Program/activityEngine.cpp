@@ -6,6 +6,7 @@ Last Modification: 14/10/2016
 #include <iostream>
 #include <string>
 #include <random>
+#include <fstream>
 #include "activityEngine.h"
 #include "heap.h"
 #include "heap.cpp"
@@ -16,6 +17,9 @@ Last Modification: 14/10/2016
 #include "queue.cpp"
 #include "vehicleType.h"
 #include "time.h"
+#include "vehicleTypeInQueue.h"
+#include "vehicleTypeInHeap.h"
+#include "road.h"
 using namespace std;
 activityEngine::activityEngine()
 {
@@ -47,24 +51,30 @@ activityEngine::activityEngine(int days, Stats *&Statistics, int NumStatistics)/
         		totalFlowEachDay[m] += eachDayFlowEachTypeNumber[m][i];
         }
         //allocate member for each Day Activity
-        eachDayActivity = new Queue<vehicle>*[days];
+        eachDayActivity = new Queue<vehicleTypeInQueue>*[days];
         for (int i = 0; i < days; i++)
-        	eachDayActivity[i] = new Queue<vehicle>(totalFlowEachDay[i]+1);
+        	eachDayActivity[i] = new Queue<vehicleTypeInQueue>(totalFlowEachDay[i]+1);
         //allocate days
 	this->days = days;
 	//set crrent time
 	currentTime.setHour(0);
 	currentTime.setMin(0);
-	//init vehicle On Road State
-	vehicleOnRoadState = new Heap<vehicle>(100);
+	//init vehicle On Road State 	
+	vehicleOnRoadState = new Heap<vehicleTypeInHeap>*[days];
+	for (int i = 0; i < days; i++)
+		vehicleOnRoadState[i] = new Heap<vehicleTypeInHeap>(100);
 	//delete totalFlowEachDay
 	delete [] totalFlowEachDay;
 }
 activityEngine::~activityEngine()
 {
 	for(int i = 0; i < days; i++)
+	{
 		delete eachDayActivity[i];
+		delete vehicleOnRoadState[i];
+	}
 	delete [] eachDayActivity;
+	delete [] vehicleOnRoadState;
 }
 double activityEngine::norDistribution(double mean, double standardDeviation)
 {
@@ -96,7 +106,7 @@ void activityEngine::initQueue(Stats *&Statistics, std::unordered_map<std::strin
 		{			
 			for (int n = 0; n < eachDayFlowEachTypeNumber[i][m]; n++)
 			{
-				vehicle newVehicle;
+				vehicleTypeInQueue newVehicle;
 				Time arriveTime;
 				
 				//set hour
@@ -135,7 +145,7 @@ void activityEngine::initQueue(Stats *&Statistics, std::unordered_map<std::strin
 		int whichSame = eachDayActivity[i]->checkElementSame();
 		while (whichSame != -1)
 		{
-			vehicle newVehicle = eachDayActivity[i]->getElement(whichSame);
+			vehicleTypeInQueue newVehicle = eachDayActivity[i]->getElement(whichSame);
 			string sameElementType = newVehicle.getType();
 			string newRegisration = generateRegisration(sameElementType, vehicleTypeInfo);
 			newVehicle.setRegisration(newRegisration);
@@ -168,40 +178,67 @@ string activityEngine::activityEngine::generateRegisration(string type, std::uno
 	}
 	return output;
 }
-void activityEngine::simulation(std::unordered_map<std::string, vehicleType> &Types)
+void activityEngine::simulation(std::unordered_map<std::string, vehicleType> &Types, road roadInfo)
 {
 	int currentMin;
 	int currentHour;
+	srand((unsigned) time(NULL));
 	for (int i = 0; i < days; i++)
 	{
-		cout << "Day: " << i + 1 << endl;
+		std::ofstream outfile;
+		string fileName = "Day: ";
+		string day = to_string(i + 1);
+		fileName = fileName + day;
+		cout << "fileName: " << fileName << endl;
+		outfile.open(fileName.c_str(), std::fstream::out);
+		outfile << "Day: " << i + 1 << endl;
 		for (int m = 0; m < 24 * 60; m++)
 		{
+			vehicleTypeInQueue newVehicleInQueue;
 			//print out current time
-			//cout << "current Time " << currentTime;
+			outfile << "current Time " << currentTime << endl;
 			
-			vehicle newVehicle = eachDayActivity[i]->Front();
-			if (currentTime == newVehicle.getArriveTime())
+			//change vehicle State in the heap
+			if (!vehicleOnRoadState[i]->isEmpty())
 			{
-				eachDayActivity[day]->Dequeue();	// Removes an element in Queue from front end.
-				//put into heap
-				vehicleOnRoadState->insert(newVehicle);
+				int heapSize = vehicleOnRoadState[i]->getHeapSize();
+				for (int n = 0; n < heapSize; n++)
+				{
+					//change vehicle State in the heap
+					vehicleTypeInHeap changeVehicle = vehicleOnRoadState[i]->getHeapElement(n);
+					outfile << "before  vehicleChangeState" <<changeVehicle.getCurrentPosition() <<endl;
+					vehicleChangeState(changeVehicle, Types, outfile);
+					outfile << "after  vehicleChangeState" <<changeVehicle.getCurrentPosition() <<endl;
+					vehicleOnRoadState[i]->setHeapElement(changeVehicle, n);
+					vehicleOnRoadState[i]->siftUp(n);
+					
+					outputVehicleLog(changeVehicle, outfile, roadInfo, Types, i, n);
+					
+					
+					
+				}
 			}
-			else if(newVehicle.getArriveTime() < currentTime)//solve if have two same arrive in the queue
+					
+			if (!eachDayActivity[i]->isEmpty())
+				newVehicleInQueue = eachDayActivity[i]->Front();
+			if (currentTime == newVehicleInQueue.getArriveTime())
+			{
+				eachDayActivity[i]->Dequeue();	// Removes an element in Queue from front end.					
+				//put into heap
+				vehicleOnRoadState[i]->insert(convertVehicleTypeQueueToHeap(newVehicleInQueue));
+				outfile << "NORMAL, " << newVehicleInQueue.getRegisration() << " " << newVehicleInQueue.getType() << " Arrived" << endl;
+			}
+			else if(newVehicleInQueue.getArriveTime() < currentTime)//solve if have two same arrive in the queue
 			{
 				int min = currentTime.getMin();
-				newVehicle.setArriveTimeMin(min++);
-				eachDayActivity[day]->Dequeue();	// Removes an element in Queue from front end.
+				newVehicleInQueue.setArriveTimeMin(min++);
+				eachDayActivity[i]->Dequeue();	// Removes an element in Queue from front end.
 				//put into heap
-				vehicleOnRoadState->insert(newVehicle);
-				//cout << "newVehicle: " << newVehicle << endl;
-				//cout << "Heap: " << *vehicleOnRoadState << endl;
+				vehicleOnRoadState[i]->insert(convertVehicleTypeQueueToHeap(newVehicleInQueue));
+				outfile << "NORMAL, " << newVehicleInQueue.getRegisration() << " " << newVehicleInQueue.getType() << " Arrived" << endl;
 			}
-			//change vehicle State in the heap
-			for ()
-			{
-			
-			}
+			outfile << "Heap: " << *vehicleOnRoadState[i] << endl;
+			//set current time, min + 1
 			currentMin = currentTime.getMin();
 			currentMin++;
 			if (currentMin >= 60)
@@ -211,61 +248,178 @@ void activityEngine::simulation(std::unordered_map<std::string, vehicleType> &Ty
 				currentTime.setHour(++currentHour);
 			}
 			else
-				currentTime.setMin(currentMin);
-			
-			
-		}		
+				currentTime.setMin(currentMin);			
+		}
+		outfile.close();		
 	}
 	return;
 }
-void activityEngine::vehicleChangeState(vehicle &newVehicle, int day, std::unordered_map<std::string, vehicleType> &VehicleTypeInfo)
+void activityEngine::vehicleChangeState(vehicleTypeInHeap &newVehicle, std::unordered_map<std::string, vehicleType> &VehicleTypeInfo, ofstream &outfile)
 {
-	float random = rand() / float(RAND_MAX);
-	
 	string newVehicleType = newVehicle.getType();
-	float continuingDrivingProbability = VehicleTypeInfo[newVehicleType].getContinuingDrivingProbability();
-	float turnProbability = VehicleTypeInfo[newVehicleType].getTurnProbability();
-	float parkProbability = VehicleTypeInfo[newVehicleType].getParkProbability();
-	float speedUpProbability = VehicleTypeInfo[newVehicleType].getSpeedUpProbability();
-	float speedDownProbability = VehicleTypeInfo[newVehicleType].getSpeedDownProbability();
 	
-	float levelOne = continuingDrivingProbability;
-	float levelTwo = continuingDrivingProbability + turnProbability;
-	float levelThree = continuingDrivingProbability + turnProbability + parkProbability;
-	float levelFour = continuingDrivingProbability + turnProbability + parkProbability + speedUpProbability;
-	float levelFifty = continuingDrivingProbability + turnProbability + parkProbability + speedUpProbability + speedDownProbability;
-	
-	if (levelFifty != 1)
-		cout << "Probability error, sum are not equal 1" << endl;
-	if (random < levelOne)//continuingDriving
+	if (newVehicle.getParked() == true) //current parked
 	{
+		float random = rand() / float(RAND_MAX);
 		
+		float stilParkProbability = VehicleTypeInfo[newVehicleType].getStilParkProbability();
+		float resumingJourneyProbability = VehicleTypeInfo[newVehicleType].getResumingJourneyProbability();
+		
+		float levelOne = resumingJourneyProbability;
+		float leveltwo = stilParkProbability + resumingJourneyProbability;
+		
+		if (leveltwo != 1)
+			cout << "Probability error, sum are not equal 1" << endl;
+		
+		if (random < levelOne)//resuming Journey
+		{
+			newVehicle.setParked(false);
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("Resume");
+			
+			float kilometresPerMin = kilometresPerHourToPerMin(newVehicle.getCurrentSpeed());
+			float oldPosition = newVehicle.getCurrentPosition();
+			newVehicle.setCurrentPosition(oldPosition + kilometresPerMin);
+		}
+		else if (random >= levelOne && random < leveltwo)
+		{
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("still Parked");
+		}
 	}
-	else if (random >= levelOne && random < levelTwo)//turn
+	else//current on road
 	{
+		float random = rand() / float(RAND_MAX);
+		float continuingDrivingProbability = VehicleTypeInfo[newVehicleType].getContinuingDrivingProbability();
+		float turnProbability = VehicleTypeInfo[newVehicleType].getTurnProbability();
+		float parkProbability = VehicleTypeInfo[newVehicleType].getParkProbability();
+		float speedUpProbability = VehicleTypeInfo[newVehicleType].getSpeedUpProbability();
+		float speedDownProbability = VehicleTypeInfo[newVehicleType].getSpeedDownProbability();
 	
+		float levelOne = continuingDrivingProbability;
+		float levelTwo = continuingDrivingProbability + turnProbability;
+		float levelThree = continuingDrivingProbability + turnProbability + parkProbability;
+		float levelFour = continuingDrivingProbability + turnProbability + parkProbability + speedUpProbability;
+		float levelFifty = continuingDrivingProbability + turnProbability + parkProbability + speedUpProbability + speedDownProbability;
+	
+		if (levelFifty != 1)
+			cout << "Probability error, sum are not equal 1" << endl;
+		if (random < levelOne)//continuingDriving
+		{
+			outfile << "@@" << endl;
+			float kilometresPerMin = kilometresPerHourToPerMin(newVehicle.getCurrentSpeed());
+			float oldPosition = newVehicle.getCurrentPosition();
+			outfile << "@@" << oldPosition + kilometresPerMin << endl;
+			newVehicle.setCurrentPosition(oldPosition + kilometresPerMin);
+		
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("Continuing Driving");
+		}
+		else if (random >= levelOne && random < levelTwo)//turn
+		{
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("turn");
+		}
+		else if (random >= levelTwo && random < levelThree)//parking
+		{
+			newVehicle.setParked(true);
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("parking");
+		}
+		else if (random >= levelThree && random < levelFour)//speed up
+		{
+			float oldSpeed = newVehicle.getCurrentSpeed();
+			float newSpeed = oldSpeed + 5;
+			newVehicle.setCurrentSpeed(newSpeed);
+		
+			float kilometresPerMin = kilometresPerHourToPerMin(newSpeed);
+			float oldPosition = newVehicle.getCurrentPosition();
+			newVehicle.setCurrentPosition(oldPosition + kilometresPerMin);
+		
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("speed up");
+		}
+		else if (random >= levelFour && random < levelFifty)//speed down
+		{
+			float oldSpeed = newVehicle.getCurrentSpeed();
+			float newSpeed = oldSpeed - 5;
+			newVehicle.setCurrentSpeed(newSpeed);
+		
+			float kilometresPerMin = kilometresPerHourToPerMin(newSpeed);
+			float oldPosition = newVehicle.getCurrentPosition();
+			newVehicle.setCurrentPosition(oldPosition + kilometresPerMin);
+		
+			newVehicle.setPreviousAction(newVehicle.getThisAction());
+			newVehicle.setThisAction("speed down");
+		}	
 	}
-	else if (random >= levelTwo && random < levelThree)//parking
-	{
-	
-	}
-	else if (random >= levelThree && random < levelFour)//speed up
-	{
-	
-	}
-	else if (random >= levelFour && random < levelFifty)//speed down
-	{
-	
-	}
-	
-	
+	outfile << "inside  vehicleChangeState" <<newVehicle.getCurrentPosition() <<endl;
 	return;
+}
+void activityEngine::outputVehicleLog(vehicleTypeInHeap & changeVehicle, ofstream & outfile, road &roadInfo, std::unordered_map<std::string, vehicleType> &Types, int day, int whichElement)
+{
+	//check vehicle Continuing Driving
+	if (changeVehicle.getThisAction() == "Continuing Driving")
+	{
+		outfile << "NORMAL, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " Continuing Driving" << endl;
+	}
+	else if (roadInfo.getLength() <= static_cast<int>(changeVehicle.getCurrentPosition()))//check vehicle arrive
+	{
+		outfile << "NORMAL, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " Depart" << endl;
+		vehicleOnRoadState[day]->removeByIndex(whichElement);
+	}
+	else if(changeVehicle.getThisAction() == "turn")//check vehicle turned
+	{
+		outfile << "NORMAL, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " Turned" << endl;
+		vehicleOnRoadState[day]->removeByIndex(whichElement);
+	}
+	else if (changeVehicle.getThisAction() == "parking")//check vehicle parking
+	{						
+		if (Types[changeVehicle.getType()].getParkable() == false)//can not parking
+			outfile << "ALERT, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " Parked";
+		else
+			outfile << "NORMAL, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " Parked";
+		int freeParkingSpaces = roadInfo.getFreeParkingSpaces();
+		if (freeParkingSpaces == 0)
+			outfile << " No Free ParkingSpaces";
+		else
+			roadInfo.setFreeParkingSpaces(freeParkingSpaces + 1);
+		outfile << endl;
+	}
+	else if(changeVehicle.getThisAction() == "speed up" || changeVehicle.getThisAction() == "speed down")
+	{
+		outfile << "DEBUG, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " speed change" << endl;
+	}
+	else if(changeVehicle.getThisAction() == "Resume")
+	{
+		outfile << "NORMAL, " << changeVehicle.getRegisration() << " " << changeVehicle.getType() << " Resume" << endl;
+	}
+	return;
+}
+vehicleTypeInHeap activityEngine::convertVehicleTypeQueueToHeap(vehicleTypeInQueue newVehicle)
+{
+	vehicleTypeInHeap output;	
+		
+	output.setType(newVehicle.getType());
+	output.setArriveTime(newVehicle.getArriveTime());
+	output.setRegisration(newVehicle.getRegisration());
+	output.setCurrentPosition(newVehicle.getCurrentPosition());
+	output.setCurrentSpeed(newVehicle.getCurrentSpeed());
+	output.setParked(newVehicle.getParked());
+	output.setThisAction(newVehicle.getThisAction());
+	output.setPreviousAction(newVehicle.getPreviousAction());
+	
+	return output;
+}
+float activityEngine::kilometresPerHourToPerMin(float kilometresPerHour)
+{
+	return kilometresPerHour / 60;
 }
 int activityEngine::getDays() const
 {
 	return days;
 }
-Queue<vehicle> * activityEngine::getEachDayActivity(int days) const
+Queue<vehicleTypeInQueue> * activityEngine::getEachDayActivity(int days) const
 {
 	return eachDayActivity[days];
 }

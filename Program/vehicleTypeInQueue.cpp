@@ -1,0 +1,15 @@
+/*-------------------------------------------------------------
+Student's Name: Boyang YAN
+Student's email address: by932@uowmail.edu.au
+Last Modification: 15/10/2016
+-------------------------------------------------------------*/
+#include "vehicleTypeInQueue.h"
+#include "vehicle.h"
+#include<iostream>
+using namespace std;
+bool vehicleTypeInQueue::operator< (const vehicle& rhs)
+{
+	if (arriveTime < rhs.getArriveTime())
+		return true;
+	return false;
+}
