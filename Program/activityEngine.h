@@ -40,8 +40,8 @@ class activityEngine
 		double norDistribution(double, double);
 		void initQueue(Stats *&, std::unordered_map<std::string, vehicleType>&);
 		string generateRegisration(string, std::unordered_map<std::string, vehicleType>&);
-		void simulation(std::unordered_map<std::string, vehicleType> &, road);
-		void vehicleChangeState(vehicleTypeInHeap &, std::unordered_map<std::string, vehicleType> &, ofstream &);
+		void simulation(std::unordered_map<std::string, vehicleType> &, road&);
+		void vehicleChangeState(vehicleTypeInHeap &, std::unordered_map<std::string, vehicleType> &, ofstream &, road&);
 		float kilometresPerHourToPerMin(float);
 		
 		vehicleTypeInHeap convertVehicleTypeQueueToHeap(vehicleTypeInQueue);

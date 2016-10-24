@@ -44,7 +44,7 @@ bool Heap<T>::isEmpty() const
 template <class T>
 int Heap<T>::parent(int index) const
 {
-	if (heapSize <= 1)//empty or root has no parent
+	if (index < 1)//index has no parent
 		return -1;
 	return static_cast<int>(index / 2);
 }
