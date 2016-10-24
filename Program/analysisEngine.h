@@ -7,17 +7,13 @@ Last Modification: 15/10/2016
 #define ANALYSISENGINE_H
 #include<iostream>
 #include <string>
-#include "queue.h"
-#include "vehicle.h"
 using namespace std;
 class analysisEngine
 {
 	private:
-
+	
 	public:
 		analysisEngine();
 		~analysisEngine();
-		void MeasureBaseline(Queue<vehicle>**, int, int);
-		bool OutputToFile(Queue<vehicle>*, string, int);
 }
 #endif
